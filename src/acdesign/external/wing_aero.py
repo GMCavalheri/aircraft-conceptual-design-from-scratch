@@ -156,3 +156,73 @@ def downwash_gradient_datcom(p: Planform, l_t: float, h_t: float, M: float = 0.0
     K_H = (1 - abs(h_t / b)) / (2 * l_t / b) ** (1 / 3)
     de = 4.44 * (K_A * K_lam * K_H * np.sqrt(np.cos(p.sweep))) ** 1.19
     return float(de * lift_slope_datcom(p, M) / lift_slope_datcom(p, 0.0))
+
+
+def _rolling_moment(
+    p: Planform,
+    dihedral: float,
+    alpha: float,
+    beta: float = 0.0,
+    p_hat: float = 0.0,
+    r_hat: float = 0.0,
+    aileron: float = 0.0,
+    aileron_span=(0.70, 0.95),
+) -> tuple[float, float]:
+    """(CL, Cl) of the wing in body axes (x forward, y right, z down; Cl > 0 right wing
+    down) from the AERO-01 lattice with sideslip, roll and yaw rate in the boundary
+    condition and the Kutta–Joukowski forces. ``aileron`` [rad] is the incidence change of
+    the aileron strips, positive for right wing down (right aileron trailing edge up, left
+    down: the AERO-04 / CR-2144 convention). Lattice axes: x aft, y right, z up; V = 1."""
+    from aero.vortex_lattice_3d.geometry import build_lattice
+    from aero.vortex_lattice_3d.vlm import influence_matrix
+
+    wing = Wing(p.b, lambda eta: p.c_root * (1 - (1 - p.taper) * np.asarray(eta, float)),
+                sweep=p.sweep, dihedral=dihedral)  # fmt: skip
+    lat = build_lattice(wing, N_SPAN, N_CHORD)
+    v_inf = np.array([np.cos(alpha) * np.cos(beta), -np.sin(beta), np.sin(alpha) * np.cos(beta)])
+    omega = np.array([-p_hat * 2 / p.b, 0.0, -r_hat * 2 / p.b])  # body (p, q, r) in lattice axes
+    normal = lat.normal
+    if aileron:
+        y_c = lat.control[..., 1]
+        eta = np.abs(y_c) / (p.b / 2)
+        on = (eta >= aileron_span[0]) & (eta <= aileron_span[1])
+        d = np.where(on, np.where(y_c > 0, -aileron, aileron), 0.0)[..., None]
+        normal = normal * np.cos(d) + np.array([1.0, 0.0, 0.0]) * np.sin(d)
+    vel = v_inf - np.cross(omega, lat.control)
+    rhs = -np.sum(normal * vel, axis=-1).reshape(-1)
+    gamma = np.linalg.solve(influence_matrix(lat), rhs).reshape(lat.control.shape[:2])
+    mid = 0.5 * (lat.bound_a + lat.bound_b)
+    F = gamma[..., None] * np.cross(v_inf - np.cross(omega, mid), lat.bound_b - lat.bound_a)
+    S = float(lat.area.sum())
+    lift = float(np.sum(F[..., 2]) * np.cos(alpha) - np.sum(F[..., 0]) * np.sin(alpha))
+    roll_lattice = float(np.sum(np.cross(mid, F)[..., 0]))
+    return 2 * lift / S, -2 * roll_lattice / (S * p.b)
+
+
+@dataclass(frozen=True)
+class RollDerivatives:
+    Cl_b: float
+    Cl_p: float
+    Cl_r: float
+    Cl_da: float  # per radian of aileron incidence change (multiply by τ for deflection)
+
+
+def roll_derivatives(p: Planform, dihedral: float, CL: float, M: float = 0.0) -> RollDerivatives:
+    """Wing rolling-moment derivatives (body axes, per rad) at lift coefficient ``CL``, by
+    central differences of the linear lattice; scaled to Mach by CLα(M)/CLα(0) (the
+    DATCOM practice for the lift-proportional derivatives)."""
+    a0 = lift_slope(p, 0.0)
+    alpha = CL / a0
+    d = 1e-3
+    k = lift_slope(p, M) / a0
+
+    def diff(**kw):
+        name, _ = next(iter(kw.items()))
+        hi = _rolling_moment(p, dihedral, alpha, **{name: d})[1]
+        lo = _rolling_moment(p, dihedral, alpha, **{name: -d})[1]
+        return (hi - lo) / (2 * d)
+
+    return RollDerivatives(
+        Cl_b=k * diff(beta=1), Cl_p=k * diff(p_hat=1), Cl_r=k * diff(r_hat=1),
+        Cl_da=k * diff(aileron=1),
+    )  # fmt: skip

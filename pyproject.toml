@@ -61,4 +61,4 @@ ignore = [
 
 [tool.ruff.lint.isort]
 # validation/ scripts (and the tests, via tests/conftest.py) import their sibling modules directly
-known-local-folder = ["reference", "reference_aircraft"]
+known-local-folder = ["reference", "reference_aircraft", "mission_definition"]
