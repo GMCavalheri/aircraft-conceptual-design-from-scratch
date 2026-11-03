@@ -54,13 +54,13 @@ aircraft-conceptual-design-from-scratch/
 ```
 
 ## Execution Plan
-- [ ] **Phase 1 — Requirements and reference aircraft selection**: define mission requirements, select a real reference aircraft (e.g., a 737-800-class narrow-body) for validation comparison.
-- [ ] **Phase 2 — Weight estimation and fuel fraction sizing**: implement statistical weight buildup and Breguet-based fuel fraction, iterate to closure.
-- [ ] **Phase 3 — Constraint diagram**: implement thrust-to-weight vs. wing-loading constraint analysis, identify feasible design point.
-- [ ] **Phase 4 — Wing/tail sizing**: size wing and tail surfaces, integrating the Aerodynamics module.
-- [ ] **Phase 5 — Structural sizing check**: apply simplified structural sizing using the Structures module, cross-check against statistical weight estimate.
-- [ ] **Phase 6 — Performance and stability verification**: verify range/payload performance (Propulsion module) and stability characteristics (Flight Dynamics module) of the final sized configuration.
-- [ ] **Phase 7 — Trade studies and sensitivity analysis**: sweep key design parameters, produce classical trade-off visualizations.
+- [x] **Phase 1 — Requirements and reference aircraft selection**: define mission requirements, select a real reference aircraft (e.g., a 737-800-class narrow-body) for validation comparison.
+- [x] **Phase 2 — Weight estimation and fuel fraction sizing**: implement statistical weight buildup and Breguet-based fuel fraction, iterate to closure.
+- [x] **Phase 3 — Constraint diagram**: implement thrust-to-weight vs. wing-loading constraint analysis, identify feasible design point.
+- [x] **Phase 4 — Wing/tail sizing**: size wing and tail surfaces, integrating the Aerodynamics module.
+- [x] **Phase 5 — Structural sizing check**: apply simplified structural sizing using the Structures module, cross-check against statistical weight estimate.
+- [x] **Phase 6 — Performance and stability verification**: verify range/payload performance (Propulsion module) and stability characteristics (Flight Dynamics module) of the final sized configuration.
+- [x] **Phase 7 — Trade studies and sensitivity analysis**: sweep key design parameters, produce classical trade-off visualizations.
 - [ ] **Phase 8 — Documentation and publishing**: full design report style write-up (mirroring an actual conceptual design report), publish repository.
 
 ## Validation Strategy

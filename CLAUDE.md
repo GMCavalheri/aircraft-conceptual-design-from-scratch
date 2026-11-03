@@ -20,17 +20,29 @@ Plan: `AERO-05-aircraft-conceptual-design-from-scratch-PLAN.md` (tick the phase 
 ## Layout
 - `src/acdesign/` — single package; subpackages mirror the plan: `requirements`,
   `weight_estimation`, `constraint_analysis`, `wing_tail_sizing`, `structural_sizing_check`,
-  `performance_verification`, `trade_studies`; shared `units.py`, `atmosphere.py`, `plotting.py`.
-- `src/acdesign/external/` — the **only** place the pillar packages are imported: `aero`
-  (AERO-01), `structures` (AERO-02), `propulsion` (AERO-03), `flightdyn` (AERO-04). They are uv
+  `performance_verification`, `trade_studies`. `sizing.py` closes every discipline on W0 and
+  holds the shared assumptions (the 737-800 description in `validation/reference_aircraft.py`
+  reuses them); `geometry.py`, `units.py`, `plotting.py` are shared helpers.
+- `src/acdesign/external/` — the **only** place the pillar packages are imported:
+  `wing_aero.py` (`aero`, AERO-01), `wing_box.py` (`structures`, AERO-02), `engine.py` and
+  `atmosphere.py` (`propulsion`, AERO-03), `stability.py` (`flightdyn`, AERO-04). They are uv
   git dependencies pinned to a commit in `pyproject.toml` (`[tool.uv.sources]`); bump the `rev`
-  deliberately and rerun everything.
+  deliberately and rerun everything (tests, `run_all.py`, notebooks, lesson numbers).
 - `tests/` — pytest, one file per module; `tests/conftest.py` puts `validation/` on the path.
 - `validation/` — cited reference data (`reference_data/`, loaded by `reference.py`), one script
   per comparison, `run_all.py`, and `results/`.
 - `docs/` — theory note per module, the design report, figures; `docs/lessons/` is the course
   (keep its numbers in sync with the code: rerun the snippets and the scripts that produced
   them after any model change). `notebooks/` — one executed demo per lesson.
+
+## Gotchas
+- The sizing caches VLM solutions per planform and engine tables per (engine, altitude, Mach)
+  with `functools.cache`; the first sizing in a process takes seconds, the next ones tens of ms.
+- AERO-03's `operate` can return unconverged points without raising: the engine adapter
+  checks `.converged`. The flightdyn trim can report "no progress" at an exact start; nudge
+  the guess.
+- Induced velocity must not be evaluated on a trailing-vortex node: the VLM uses an odd
+  strip count so the symmetry plane (where the tail is) is a strip centre.
 
 ## Conventions
 - **SI units internally** (m, s, kg, N, Pa, rad). Helpers that take or return other units say
