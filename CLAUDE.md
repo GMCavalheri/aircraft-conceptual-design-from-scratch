@@ -15,7 +15,6 @@ Plan: `AERO-05-aircraft-conceptual-design-from-scratch-PLAN.md` (tick the phase 
   and results table (`validation/results/`); single scripts also run on their own
 - `uv run python notebooks/build_notebooks.py` — regenerate and execute the notebooks (edit cell
   sources there, never the .ipynb JSON); rebuilds are byte-identical
-- `uv run python docs/lessons/make_figures.py` — regenerate the lesson figures
 
 ## Layout
 - `src/acdesign/` — single package; subpackages mirror the plan: `requirements`,
