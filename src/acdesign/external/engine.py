@@ -56,10 +56,11 @@ class EngineData:
     bpr: float
     opr: float
     rated_thrust: float  # sea-level static ISA [N]
-    ff_takeoff: float  # take-off fuel flow at rated thrust [kg/s]
+    ff_takeoff: float | None  # take-off fuel flow at rated thrust [kg/s]
     dry_mass: float  # [kg], EASA type-certificate data sheet
     nacelle_diameter: float  # [m]
     nacelle_length: float  # [m]
+    Tt4: float | None = None  # [K]; given instead of calibrated (parametric engines)
 
 
 # Data: ICAO Engine Emissions Databank Issue 32 (UIDs 8CM065, 08P28CM143); dry mass from
@@ -72,6 +73,36 @@ LEAP_1B28 = EngineData(
     4.70 * 3147 / 2508,
 )  # fmt: skip
 
+# Calibration: engine mass at equal thrust against bypass ratio, from the two TCDS dry masses
+# (the LEAP brought to the CFM56's thrust with Raymer's rubber-engine exponent 1.1)
+K_BPR = float(
+    np.log(
+        LEAP_1B28.dry_mass
+        * (CFM56_7B26.rated_thrust / LEAP_1B28.rated_thrust) ** 1.1
+        / CFM56_7B26.dry_mass
+    )  # noqa: E501
+    / (LEAP_1B28.bpr - CFM56_7B26.bpr)
+)
+
+
+def parametric_engine(bpr: float, base: EngineData | None = None) -> EngineData:
+    """A rubber engine of the CFM56-7B26/3's core technology (its calibrated Tt4, OPR and
+    component efficiencies, best-TSFC fan) at another bypass ratio, for trade studies.
+    Dry mass at fixed thrust ∝ exp(K_BPR · BPR), ``K_BPR`` fitted to the two TCDS engines
+    (calibration; Raymer's statistical term, exp(−0.045 BPR), has the opposite sign — it
+    spans older engine generations); the nacelle diameter scales with the square root of the
+    model's airflow, its length with the diameter (assumptions)."""
+    base = CFM56_7B26 if base is None else base
+    Tt4 = calibrated(base).design_point.Tt4
+    ref_flow = calibrated(base).design_point.mdot0
+    d = EngineData(f"BPR {bpr:g}", bpr, base.opr, base.rated_thrust, None,
+                   base.dry_mass * np.exp(K_BPR * (bpr - base.bpr)), 0.0, 0.0, Tt4)  # fmt: skip
+    k = np.sqrt(calibrated(d).design_point.mdot0 / ref_flow)
+    return EngineData(
+        d.name, bpr, base.opr, base.rated_thrust, None, d.dry_mass, base.nacelle_diameter * k,
+        base.nacelle_length * k, Tt4,
+    )  # fmt: skip
+
 
 def flight(h: float, M: float, dT: float = 0.0) -> FlightCondition:
     """Flight condition at geopotential pressure altitude ``h`` [m] and Mach ``M``."""
@@ -80,14 +111,15 @@ def flight(h: float, M: float, dT: float = 0.0) -> FlightCondition:
 
 @cache
 def calibrated(data: EngineData) -> TurbofanEngine:
-    """The engine sized at its ICAO rating, Tt4 calibrated to the ICAO take-off fuel flow."""
+    """The engine sized at its ICAO rating, Tt4 calibrated to the ICAO take-off fuel flow
+    (or at the given ``data.Tt4`` for a parametric engine)."""
 
     def excess_fuel(Tt4):
         pi_f = best_fan_pressure_ratio(SLS, data.bpr, data.opr, Tt4, pi_cL=PI_CL, **_KW)
         p = turbofan(SLS, data.bpr, pi_f, data.opr, Tt4, pi_cL=PI_CL, **_KW)
         return data.rated_thrust * float(p.tsfc) - data.ff_takeoff
 
-    Tt4 = brentq(excess_fuel, 1300.0, 2000.0, xtol=1e-6)
+    Tt4 = data.Tt4 if data.Tt4 is not None else brentq(excess_fuel, 1300.0, 2000.0, xtol=1e-6)
     pi_f = best_fan_pressure_ratio(SLS, data.bpr, data.opr, Tt4, pi_cL=PI_CL, **_KW)
     return TurbofanEngine.design(
         SLS,
