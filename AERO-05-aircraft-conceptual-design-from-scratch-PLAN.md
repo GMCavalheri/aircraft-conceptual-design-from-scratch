@@ -61,7 +61,7 @@ aircraft-conceptual-design-from-scratch/
 - [x] **Phase 5 — Structural sizing check**: apply simplified structural sizing using the Structures module, cross-check against statistical weight estimate.
 - [x] **Phase 6 — Performance and stability verification**: verify range/payload performance (Propulsion module) and stability characteristics (Flight Dynamics module) of the final sized configuration.
 - [x] **Phase 7 — Trade studies and sensitivity analysis**: sweep key design parameters, produce classical trade-off visualizations.
-- [ ] **Phase 8 — Documentation and publishing**: full design report style write-up (mirroring an actual conceptual design report), publish repository.
+- [x] **Phase 8 — Documentation and publishing**: full design report style write-up (mirroring an actual conceptual design report), publish repository.
 
 ## Validation Strategy
 - Compare final sized weight, wing area, and thrust requirement against the real specifications of the chosen reference aircraft (order-of-magnitude and qualitative trend agreement, not exact match).
