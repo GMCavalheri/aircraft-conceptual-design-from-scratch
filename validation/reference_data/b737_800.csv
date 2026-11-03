@@ -28,6 +28,7 @@ wheelbase,15.60,m,[ACAP] 2.2.5 p.2-13,51 ft 2 in
 range_at_mzfw_mtow,2030,nmi,[ACAP] 3.2.4 p.3-5,"chart (+-30 nmi): MTOW line meets MZFW 138,300 lb; LRC, std day, typical mission rules"
 range_at_full_fuel_mtow,2860,nmi,[ACAP] 3.2.4 p.3-5,"chart (+-30 nmi): MTOW line meets the 46,063 lb fuel-capacity line"
 oew_plus_payload_at_full_fuel_mtow,128300,lb,[ACAP] 3.2.4 p.3-5,"chart (+-500 lb); payload there = 128,300 - OEW"
+range_at_full_fuel_zero_payload,3680,nmi,[ACAP] 3.2.4 p.3-5,"chart (+-40 nmi): the 46,063 lb fuel-capacity line at OEW + payload = OEW"
 takeoff_field_length_mtow_sl,7800,ft,[ACAP] 3.3.29 p.3-36,"chart (+-100 ft): FAA/EASA, std day, sea level, dry, 26,000 lb SLST engines, optimum flaps"
 landing_field_length_mlw_sl,5800,ft,[ACAP] 3.4.3 p.3-51,"chart (+-100 ft): FAA/EASA, flaps 30, std day, sea level, dry"
 wing_area,124.60,m2,[JSR] Table 2,reference wing area
