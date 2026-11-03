@@ -44,6 +44,6 @@ ft/s or nmi at its boundary, with the exact factors of [`units.py`](../src/acdes
 
 ## Validation
 
-- **Class I** sizes the design mission to 80.4 t, 1.8 % above the 737-800 MTOW.
+- **Class I** sizes the design mission to 80.4 t, 1.7 % above the 737-800 MTOW.
 - **Class II** on the 737-800's published geometry gives an OEW 11.7 % below Boeing's
   (uncalibrated). See the [design report](design-report.md).

@@ -65,7 +65,7 @@ CLmax,TO = **2.09**. The assumed 2.1 is consistent with that, but it was chosen 
 
 ![Constraint diagram](../figures/constraint_diagram.png)
 
-Use the first-estimate polar ($C_{D_0}$ = 0.0026 · 6.22 = 0.0162, Raymer's e = 0.771):
+Use the first-estimate polar ($C_{D_0}$ = 0.0026 · 6.21 = 0.0161, Raymer's e = 0.771):
 
 - the landing field length caps W/S at **5,962 Pa**;
 - at that wing loading the take-off field length needs T/W = **0.285**;

@@ -71,9 +71,9 @@ For jets, the best range comes at $\sqrt3/2$ of the maximum L/D.
 
 ## 3. Class I for the design mission
 
-With the 737-800's wetted area ratio, 6.22, the correlation gives (L/D)max = 19.1. Add
+With the 737-800's wetted area ratio, 6.21, the correlation gives (L/D)max = 19.1. Add
 AERO-03's cruise TSFC and the reserves of Lesson 1. Class I then sizes the design mission
-to **80.4 t, 1.8 % above the 737-800's MTOW**.
+to **80.4 t, 1.7 % above the 737-800's MTOW**.
 
 ![Class I convergence](../figures/weights_class_one.png)
 
@@ -123,11 +123,11 @@ Run on the published 737-800 geometry at MTOW, with no input tuned:
 
 | Group | Mass [kg] |
 |---|---|
-| structure | 18,905 |
+| structure | 18,900 |
 | propulsion | 5,092 |
 | systems (incl. furnishings 6,289) | 10,644 |
 | operating items | 1,935 |
-| **OEW** | **36,576**, vs 41,413 published: **−11.7 %** |
+| **OEW** | **36,571**, vs 41,413 published: **−11.7 %** |
 
 ![Class II breakdown](../figures/weights_class_two.png)
 
