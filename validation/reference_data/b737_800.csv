@@ -18,6 +18,8 @@ oew,91300,lb,[ACAP] 2.1.3 p.2-4,operating empty weight for baseline mixed-class 
 max_structural_payload,47000,lb,[ACAP] 2.1.3 p.2-4,(21318 kg)
 seats_two_class,160,-,[ACAP] 2.1.3 p.2-4,
 seats_all_economy,184,-,[ACAP] 2.1.3 p.2-4,
+seats_first_mixed,12,-,[ACAP] 2.4.4 p.2-24,mixed class: 12 first at 36-in pitch
+seats_economy_mixed,148,-,[ACAP] 2.4.4 p.2-24,mixed class: 148 economy at 32-in pitch
 usable_fuel,46062,lb,[ACAP] 2.1.3 p.2-4,6875 US gal / 26024 L / 20897 kg
 wing_span,34.32,m,[ACAP] 2.2.5 p.2-13,112 ft 7 in
 overall_length,39.47,m,[ACAP] 2.2.5 p.2-13,129 ft 6 in
