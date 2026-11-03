@@ -1,0 +1,15 @@
+# Copied verbatim from AERO-03 (propulsion-from-scratch, validation/reference_data/icao_eedb.csv, commit 653b4e4).
+# ICAO Aircraft Engine Emissions Databank, Issue 32 (EASA, 20 March 2026), file
+# edb-emissions-databank_v32__web_.xlsx, sheet "Gaseous Emissions and Smoke". One row per engine,
+# identified by the databank UID. The current (not superseded) entry is used for each model.
+# Values are measured on a static test stand at sea level, corrected to ISA (ICAO Annex 16 Vol. II).
+# LTO thrust settings are fixed fractions of rated thrust: take-off 100 %, climb-out 85 %,
+# approach 30 %, idle 7 %. LEAP-1B values are rounded to 4 significant figures from the databank.
+# Columns: bpr = B/P Ratio, opr = Pressure Ratio (at rated thrust), rated_thrust_kN,
+# ff_* = Fuel Flow T/O, C/O, App, Idle (kg/s); nox_* = NOx EI T/O, C/O, App, Idle (g NOx per kg
+# fuel); combustor = Combustor Description.
+engine,uid,bpr,opr,rated_thrust_kN,ff_takeoff,ff_climbout,ff_approach,ff_idle,nox_takeoff,nox_climbout,nox_approach,nox_idle,combustor,source
+CFM56-7B26/3,8CM065,5.1,27.7,117.0,1.213,0.986,0.331,0.108,21.79,17.08,8.93,4.27,Tech Insertion,[EEDB-32 UID 8CM065]
+CFM56-7B27/3,8CM066,5.1,29.0,121.4,1.293,1.031,0.343,0.110,23.94,17.89,9.09,4.36,Tech Insertion,[EEDB-32 UID 8CM066]
+LEAP-1B25,08P28CM146,8.358,39.06,119.15,0.9521,0.7802,0.2664,0.09596,48.22,19.99,10.35,4.760,TAPS II,[EEDB-32 UID 08P28CM146]
+LEAP-1B28,08P28CM143,8.240,42.03,130.41,1.0700,0.8700,0.2897,0.1004,72.75,30.75,11.09,4.930,TAPS II,[EEDB-32 UID 08P28CM143]

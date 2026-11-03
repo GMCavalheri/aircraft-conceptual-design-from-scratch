@@ -1,0 +1,16 @@
+# Copied verbatim from AERO-03 (propulsion-from-scratch, validation/reference_data/tcds.csv, commit 653b4e4).
+# EASA type-certificate data sheets (TCDS):
+# [E.004] TCDS EASA.E.004, CFM International CFM56-7B series engines, Issue 07, 9 January 2023:
+#         III.2 Description, III.4 Dimensions, III.5 Dry Weight, III.6 Ratings ("TI" models),
+#         IV.1.1 Exhaust Gas Temperature (displayed limit; measured at T49.5, LPT stage-2 nozzle),
+#         IV.2 Speed Limits.
+# [E.115] TCDS EASA.E.115, CFM International LEAP-1B series engines, Issue 09, 23 March 2026:
+#         III.2 Description, III.4 Dimensions, III.5 Weight (not-to-exceed), III.6 Ratings,
+#         IV.1.1 Exhaust Gas Temperature (EGT = T48, LPT inlet; pre-SB 72-0169 limit).
+# Thrust ratings are static, sea level, standard conditions (TCDS notes). 1 daN = 10 N.
+# Columns: lpc_stages/hpc_stages/hpt_stages/lpt_stages count stages (one fan stage on both).
+engine,takeoff_thrust_daN,max_continuous_thrust_daN,egt_limit_takeoff_C,egt_station,dry_weight_kg,length_mm,lpc_stages,hpc_stages,hpt_stages,lpt_stages,source
+CFM56-7B26/3,11699,11521,950,T49.5,2386,2508,3,9,1,4,[E.004]
+CFM56-7B27/3,12143,11521,950,T49.5,2386,2508,3,9,1,4,[E.004]
+LEAP-1B25,11915,11547,1038,T48,2780,3147,3,10,2,5,[E.115]
+LEAP-1B28,13041,12762,1038,T48,2780,3147,3,10,2,5,[E.115]
