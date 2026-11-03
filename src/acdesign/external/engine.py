@@ -57,11 +57,20 @@ class EngineData:
     opr: float
     rated_thrust: float  # sea-level static ISA [N]
     ff_takeoff: float  # take-off fuel flow at rated thrust [kg/s]
+    dry_mass: float  # [kg], EASA type-certificate data sheet
+    nacelle_diameter: float  # [m]
+    nacelle_length: float  # [m]
 
 
-# Data: ICAO Engine Emissions Databank Issue 32, UIDs 8CM065 and 08P28CM143
-CFM56_7B26 = EngineData("CFM56-7B26/3", 5.1, 27.7, 117.0e3, 1.213)
-LEAP_1B28 = EngineData("LEAP-1B28", 8.240, 42.03, 130.41e3, 1.0700)
+# Data: ICAO Engine Emissions Databank Issue 32 (UIDs 8CM065, 08P28CM143); dry mass from
+# EASA TCDS E.004 / E.115. CFM56-7 nacelle: Jenkinson et al. Data A Table 2 (737-800).
+# LEAP-1B nacelle (deduction): diameter scaled by the square root of the AERO-03 models'
+# airflow ratio (475.2/348.6 kg/s), length by the TCDS engine-length ratio (3147/2508 mm).
+CFM56_7B26 = EngineData("CFM56-7B26/3", 5.1, 27.7, 117.0e3, 1.213, 2386.0, 2.06, 4.70)
+LEAP_1B28 = EngineData(
+    "LEAP-1B28", 8.240, 42.03, 130.41e3, 1.0700, 2780.0, 2.06 * (475.2 / 348.6) ** 0.5,
+    4.70 * 3147 / 2508,
+)  # fmt: skip
 
 
 def flight(h: float, M: float, dT: float = 0.0) -> FlightCondition:

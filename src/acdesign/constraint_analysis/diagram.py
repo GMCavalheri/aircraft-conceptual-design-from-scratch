@@ -90,7 +90,7 @@ def constraint_diagram(
     )
 
     def lapse_at(V_ratio, CLmax, beta=1.0):
-        M = np.array([V_ratio * stall_mach(w, CLmax, beta=beta) for w in ws])
+        M = V_ratio * stall_mach(ws, CLmax, beta=beta)
         return engine.lapse(np.zeros_like(M), M, rating=1.0)
 
     p_to = polar.low_speed(to, gear_down=False)

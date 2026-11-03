@@ -78,7 +78,7 @@ def climb_gradient(ws, polar, gradient: float, n_engines: int, V_ratio: float, a
     return np.full_like(np.asarray(ws, float), tw)
 
 
-def stall_mach(ws: float, CLmax: float, h: float = 0.0, beta: float = 1.0) -> float:
-    """Mach number of the 1-g stall at weight β W_TO."""
+def stall_mach(ws, CLmax: float, h: float = 0.0, beta: float = 1.0):
+    """Mach number of the 1-g stall at weight β W_TO (``ws`` scalar or array)."""
     atm = isa(h)
-    return float(np.sqrt(2 * beta * ws / (float(atm.rho) * CLmax)) / float(atm.a))
+    return np.sqrt(2 * beta * np.asarray(ws, float) / (float(atm.rho) * CLmax)) / float(atm.a)

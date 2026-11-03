@@ -6,7 +6,7 @@ from propulsion.off_design_performance import TurbofanEngine
 
 from acdesign.external.engine import CFM56_7B26, LEAP_1B28, Engine, calibrated, flight
 
-from reference import icao
+from reference import icao, tcds
 
 E = Engine(CFM56_7B26)
 
@@ -20,6 +20,7 @@ def test_engine_constants_are_the_databank_rows(data):
         d["rated_thrust"],
         d["ff_takeoff"],
     )
+    assert data.dry_mass == tcds(data.name)["dry_mass"]
 
 
 @pytest.mark.parametrize(
