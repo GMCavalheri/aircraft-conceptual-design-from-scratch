@@ -30,7 +30,7 @@
 | reference aircraft | does the design look like the 737-800? | W0, OEW, S, T, fuel, field-length deduction, payload-range |
 
 Every test names its source and explains its tolerance
-([`tests/`](../../tests), 89 tests). Each comparison with the reference has a script in
+([`tests/`](../../tests), 107 tests). Each comparison with the reference has a script in
 [`validation/`](../../validation) that writes a results table.
 
 ## 2. Verification is not validation

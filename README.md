@@ -108,7 +108,7 @@ src/acdesign/   requirements, weight_estimation, constraint_analysis, wing_tail_
 validation/     reference data with citations, one script per comparison, results/
 docs/           course (lessons/), theory notes, design report, figures
 notebooks/      one executed demo per lesson
-tests/          89 tests: closed forms, cross-project, consistency, the reference aircraft
+tests/          107 tests: closed forms, cross-project, consistency, the reference aircraft
 ```
 
 ## Data sources
